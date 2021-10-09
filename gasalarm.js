@@ -4,8 +4,7 @@ import prompt from "prompt-sync";
 
 var api = etherscanApi.init(""); // enter etherscan api key if you have one.
 
-
-const pollRate = 30; // in seconds
+const pollRate = 30; // polling rate in seconds
 
 const convHexWeiToGwei = (hexWei) => parseInt(hexWei, 16) / 10 ** 9;
 
@@ -15,7 +14,6 @@ const getGasPrice = async () => {
 	console.log(`gas price: ${gweiGas} gwei`);
 	return gweiGas;
 };
-
 
 const checkLoop = (alarm) => {
 	let pass = 0;
@@ -35,11 +33,10 @@ const checkLoop = (alarm) => {
 
 			sound.play("C:/Opus/gas/asdf.wav", 1);
 		}
-	}
+	};
 
 	requestPrice();
 	setInterval(() => requestPrice(), pollRate * 1000);
-
 };
 
 const main = () => {
@@ -51,7 +48,9 @@ const main = () => {
 		console.log("running without alarm...");
 		checkLoop(0);
 	} else {
-		console.log(`alarm set at ${treshold} gwei (polling rate: ${pollRate} sec.)`);
+		console.log(
+			`alarm set at ${treshold} gwei (polling rate: ${pollRate} sec.)`
+		);
 		checkLoop(treshold);
 	}
 };
