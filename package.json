@@ -1,0 +1,17 @@
+{
+  "name": "gas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"test lol\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "etherscan-api": "^10.0.5",
+    "prompt-sync": "^4.2.0",
+    "sound-play": "^1.1.0"
+  },
+  "type": "module"
+}

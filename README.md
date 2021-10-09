@@ -1,0 +1,2 @@
+- (Optional) enter your Etherscan api key to gasalarm.js.
+- run gasalarm.js with node.
