@@ -2,6 +2,8 @@ import sound from "sound-play";
 import etherscanApi from "etherscan-api";
 import prompt from "prompt-sync";
 
+const filePath = new URL("./asdf.wav", import.meta.url).href;
+
 var api = etherscanApi.init(""); // enter etherscan api key if you have one.
 
 const pollRate = 30; // polling rate in seconds
@@ -31,7 +33,7 @@ const checkLoop = (alarm) => {
 				} cheaper than alarm`
 			);
 
-			sound.play("C:/Opus/gas/asdf.wav", 1);
+			sound.play(filePath, 1);
 		}
 	};
 
