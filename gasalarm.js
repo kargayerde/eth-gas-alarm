@@ -8,11 +8,12 @@ const parseTime = (e) => new Date(e).toUTCString().replace("GMT", "UTC");
 
 const main = () => {
 	let alarm;
+	let threshold;
 
 	if (process.platform != "linux") {
 		console.log("enter desired gas price for alarm or skip");
 		var alarmCheck = new prompt();
-		const threshold = parseInt(
+		threshold = parseInt(
 			alarmCheck("gas price in gwei (standard speed): ")
 		);
 
@@ -24,7 +25,7 @@ const main = () => {
 			alarm = true;
 		}
 	}
-	alarm = false;
+	else alarm = false;
 	const socket = new WebSocket("wss://gasgas.io/prices");
 
 	socket.onopen = (e) => {
