@@ -9,7 +9,7 @@ const parseTime = (e) => new Date(e).toUTCString().replace("GMT", "UTC");
 const main = () => {
 	let alarm;
 
-	if (!process.platform === "linux") {
+	if (process.platform != "linux") {
 		console.log("enter desired gas price for alarm or skip");
 		var alarmCheck = new prompt();
 		const threshold = parseInt(
