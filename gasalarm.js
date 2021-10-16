@@ -8,24 +8,19 @@ const parseTime = (e) => new Date(e).toUTCString().replace("GMT", "UTC");
 
 const main = () => {
 	let alarm;
-	let threshold;
 
-	if (process.platform != "linux") {
-		console.log("enter desired gas price for alarm or skip");
-		var alarmCheck = new prompt();
-		threshold = parseInt(
-			alarmCheck("gas price in gwei (standard speed): ")
-		);
+	console.log("enter desired gas price for alarm or skip");
+	var alarmCheck = new prompt();
+	let threshold = parseInt(alarmCheck("gas price in gwei (standard speed): "));
 
-		if (!Number.isInteger(threshold) || threshold === 0) {
-			console.log("running without alarm...");
-			alarm = false;
-		} else {
-			console.log(`alarm set at ${threshold} gwei`);
-			alarm = true;
-		}
+	if (!Number.isInteger(threshold) || threshold === 0) {
+		console.log("running without alarm...");
+		alarm = false;
+	} else {
+		console.log(`alarm set at ${threshold} gwei`);
+		alarm = true;
 	}
-	else alarm = false;
+
 	const socket = new WebSocket("wss://gasgas.io/prices");
 
 	socket.onopen = (e) => {
@@ -51,11 +46,12 @@ const main = () => {
 			if (prices[2] <= threshold) {
 				console.log(
 					`=============== gas price is ${prices[2]} gwei, ${
-						threshold - prices[2]
-					} cheaper than alarm`
+						(threshold - prices[2]).toFixed(1)
+					} cheaper than alarm ===============`
 				);
-
+				if (process.platform != "linux") {
 				sound.play(filePath, 1);
+				}
 			}
 		}
 	};
