@@ -4,30 +4,31 @@ import WebSocket from "ws";
 
 const filePath = new URL("./asdf.wav", import.meta.url).href;
 const convWeiToGwei = (wei) => wei / 10 ** 9;
-const parseTime = (e) => new Date(e);
+const parseTime = (e) => new Date(e).toUTCString().replace("GMT", "UTC");
 
 const main = () => {
-	console.log("enter desired gas price for alarm or skip");
-	var alarmCheck = new prompt();
-	const threshold = parseInt(
-		alarmCheck("gas price in gwei (standard speed): ")
-	);
 	let alarm;
 
-	if (!Number.isInteger(threshold) || threshold === 0) {
-		console.log("running without alarm...");
-		alarm = false;
-	} else {
-		console.log(
-			`alarm set at ${threshold} gwei`
+	if (!process.platform === "linux") {
+		console.log("enter desired gas price for alarm or skip");
+		var alarmCheck = new prompt();
+		const threshold = parseInt(
+			alarmCheck("gas price in gwei (standard speed): ")
 		);
-		alarm = true;
-	}
 
+		if (!Number.isInteger(threshold) || threshold === 0) {
+			console.log("running without alarm...");
+			alarm = false;
+		} else {
+			console.log(`alarm set at ${threshold} gwei`);
+			alarm = true;
+		}
+	}
+	alarm = false;
 	const socket = new WebSocket("wss://gasgas.io/prices");
 
 	socket.onopen = (e) => {
-		// console.log("connected", {e});
+		console.log("websocket connected");
 	};
 
 	socket.onmessage = (e) => {
@@ -42,7 +43,7 @@ const main = () => {
 		console.log(`Data received at ${prices[4]}`);
 
 		console.log(
-			`rapid: ${prices[0]}\t|\tfast: ${prices[1]}\t|\tstandard: ${prices[2]}\t|\tslow: ${prices[3]}\t|\t`
+			`|   rapid: ${prices[0]}   |   fast: ${prices[1]}   |   standard: ${prices[2]}   |   slow: ${prices[3]}   |`
 		);
 
 		if (alarm) {
@@ -61,10 +62,10 @@ const main = () => {
 	socket.onclose = (e) => {
 		if (e.wasClean) {
 			console.log(
-				`[close] Connection closed cleanly, code=${e.code} reason=${e.reason}`
+				`Connection closed cleanly, code=${e.code} reason=${e.reason}`
 			);
 		} else {
-			console.log("[close] Connection died");
+			console.log("Connection rekt");
 		}
 	};
 
